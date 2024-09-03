@@ -4,6 +4,7 @@ dotenv.config();
 const cors = require("cors");
 const connectDb = require("./db/db");
 const usersRoute = require("./routers/auth.route");
+const productsRoute = require("./routers/products.route");
 
 // initialize the app
 const app = express();
@@ -15,6 +16,7 @@ app.use(cors());
 app.use(express.json());
 
 app.use("/auth", usersRoute);
+app.use("/products", productsRoute);
 
 const startServer = async () => {
   try {

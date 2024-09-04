@@ -1,32 +1,22 @@
 const express = require("express");
 const router = express.Router();
-const userModel = require("../models/product.model");
 const { verifyJwtAndAdmin } = require("../middlewares/auth.middleware");
+const { addProduct, getAllProducts, getProduct, updateProduct, deleteProduct } = require("../controllers/product.controller");
 
 // add a product
-router.post("/", verifyJwtAndAdmin, async (req, res) => {
-  try {
-    const { name, brand, category, price, quantity } = req.body;
-    if (!name || !brand || !category || !price || !quantity) {
-      return res
-        .status(400)
-        .json({ message: "Please provide all required fields." });
-    }
+router.post("/", verifyJwtAndAdmin, addProduct);
 
-    const product = await userModel.create({
-      name,
-      brand,
-      category,
-      price,
-      quantity,
-    });
+// get all products
+router.get("/", verifyJwtAndAdmin, getAllProducts);
 
-    res.status(201).json({ message: "Success", data: product });
-  } catch (err) {
-    console.log(err);
-    res.status(500).json({ message: `Server side error: ${err?.message}` });
-  }
-});
+// get a product by id 
+router.get("/:id", verifyJwtAndAdmin ,getProduct)
+
+// update a product 
+router.put("/:id", verifyJwtAndAdmin, updateProduct)
+
+// delete a product 
+router.delete("/:id", verifyJwtAndAdmin, deleteProduct)
 
 
 
